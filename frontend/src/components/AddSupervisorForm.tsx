@@ -3,8 +3,17 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Define form data type
+interface FormData {
+  name: string;
+  email: string;
+  availability_start: string;
+  availability_end: string;
+  specialization: string;
+}
+
 const AddSupervisorForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     availability_start: "",
@@ -16,29 +25,29 @@ const AddSupervisorForm = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // ✅ Handle input changes
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    // Optional: Validate email immediately after input
+    // Validate email immediately if it's the email input field
     if (e.target.name === "email" && !validateEmail(e.target.value)) {
       setError("Invalid email format.");
     } else {
-      setError(null); // Clear error if input is valid
+      setError(null);
     }
   };
 
-  // ✅ Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Clear previous messages
     setError(null);
     setSuccessMessage(null);
 
-    // ✅ Basic Validation
     const { name, email, availability_start, availability_end, specialization } = formData;
 
+    // Basic Validation
     if (!name || !email || !availability_start || !availability_end || !specialization) {
       setError("All fields are required.");
       return;
@@ -54,17 +63,12 @@ const AddSupervisorForm = () => {
       return;
     }
 
-    console.log("Payload Sent to API:", formData);
-
     try {
-      setIsSubmitting(true); // Prevent multiple submissions
-      // Updated the URL to point to localhost:5000 (or your backend URL)
-      const response = await axios.post("http://localhost:5000/api/supervisors/add", formData);
+      setIsSubmitting(true);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/supervisors/add`, formData);
       setSuccessMessage(response.data.message);
 
-      console.log("API Response:", response.data);
-
-      // ✅ Reset Form Fields
+      // Reset form fields
       setFormData({
         name: "",
         email: "",
@@ -72,33 +76,27 @@ const AddSupervisorForm = () => {
         availability_end: "",
         specialization: "",
       });
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error adding supervisor:", err);
-
-      // Handle network errors gracefully
-      if (err.response) {
-        setError(err.response?.data?.error || "Failed to add supervisor. Please try again.");
-      } else {
-        setError("Network error. Please check your connection or try again later.");
-      }
+      setError("Failed to add supervisor. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // ✅ Helper function to validate email format
-  const validateEmail = (email: string) => {
+  // Email validation function
+  const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-white shadow-md rounded-lg">
-      {/* ✅ Error and Success Messages */}
+      {/* Error and Success Messages */}
       {error && <p className="text-red-500 font-semibold">{error}</p>}
       {successMessage && <p className="text-green-500 font-semibold">{successMessage}</p>}
 
-      {/* ✅ Form Inputs */}
+      {/* Form Inputs */}
       <label className="block">
         <span className="text-gray-700">Name:</span>
         <input
@@ -106,8 +104,8 @@ const AddSupervisorForm = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          required
           className="border border-gray-300 px-2 py-1 rounded w-full mt-1"
+          required
         />
       </label>
 
@@ -118,8 +116,8 @@ const AddSupervisorForm = () => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          required
           className="border border-gray-300 px-2 py-1 rounded w-full mt-1"
+          required
         />
       </label>
 
@@ -130,8 +128,8 @@ const AddSupervisorForm = () => {
           name="availability_start"
           value={formData.availability_start}
           onChange={handleChange}
-          required
           className="border border-gray-300 px-2 py-1 rounded w-full mt-1"
+          required
         />
       </label>
 
@@ -142,8 +140,8 @@ const AddSupervisorForm = () => {
           name="availability_end"
           value={formData.availability_end}
           onChange={handleChange}
-          required
           className="border border-gray-300 px-2 py-1 rounded w-full mt-1"
+          required
         />
       </label>
 
@@ -154,12 +152,12 @@ const AddSupervisorForm = () => {
           name="specialization"
           value={formData.specialization}
           onChange={handleChange}
-          required
           className="border border-gray-300 px-2 py-1 rounded w-full mt-1"
+          required
         />
       </label>
 
-      {/* ✅ Submit Button */}
+      {/* Submit Button */}
       <button
         type="submit"
         className={`bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 ${

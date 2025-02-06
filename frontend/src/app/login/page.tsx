@@ -2,18 +2,43 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('admin');
+  const [role, setRole] = useState('student');
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (role === 'admin') router.push('/admin');
-    else if (role === 'student') router.push('/student');
-    else if (role === 'teacher') router.push('/teacher');
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+        email,
+        password,
+        role,
+      });
+
+      if (response.data.success) {
+        // Store token and user information
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ name: response.data.name, role: response.data.role })
+        );
+
+        // Navigate based on role
+        if (role === 'admin') router.push('/admin');
+        else if (role === 'student') router.push('/student');
+        else if (role === 'teacher') router.push('/teacher');
+      } else {
+        alert('Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -48,9 +73,9 @@ export default function LoginPage() {
               onChange={(e) => setRole(e.target.value)}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             >
-              <option value="admin">Admin</option>
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
           <button

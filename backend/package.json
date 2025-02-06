@@ -12,19 +12,23 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "emailjs-com": "^3.2.0",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
     "nodemailer": "^6.10.0",
     "sequelize": "^6.37.5"
   },
   "description": "",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.10.7",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

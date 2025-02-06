@@ -10,17 +10,20 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const supervisorRoutes_1 = __importDefault(require("./routes/supervisorRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-// Middleware for CORS and JSON parsing
+// CORS configuration
 app.use((0, cors_1.default)({
-    origin: '*', // Allow all origins (use specific origin in production)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: 'http://localhost:3000', // Replace '*' with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+// Middleware to parse JSON requests
 app.use(body_parser_1.default.json());
-// Debug Middleware
+// Debug Middleware (Optional)
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    console.log('Request Body:', req.body);
+    if (Object.keys(req.body).length) {
+        console.log('Request Body:', req.body);
+    }
     next();
 });
 // Routes
@@ -36,4 +39,6 @@ app.use((req, res) => {
         message: `Cannot ${req.method} ${req.originalUrl}`,
     });
 });
+// Handle preflight CORS requests (optional, usually Express handles it automatically)
+app.options('*', (0, cors_1.default)());
 exports.default = app;

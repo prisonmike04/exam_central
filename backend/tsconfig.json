@@ -2,11 +2,14 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
-    "outDir": "./dist", // Ensure compiled files go to a separate folder
-    "rootDir": "./src", // Specify the root directory for TypeScript files
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "moduleResolution": "node",
+    "types": ["node", "express"],
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": ["./src/types", "./node_modules/@types"],
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
