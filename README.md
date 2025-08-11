@@ -72,7 +72,7 @@ A centralized web application designed to streamline and automate examination-re
 ## Usage
 
 - Access the application at `http://localhost:3000` for the frontend.
-- The backend server runs on `http://localhost:5000`.
+- The backend server runs on `http://localhost:5001`.
 
 ## Environment Variables
 
@@ -85,7 +85,7 @@ DB_PASSWORD=yourpassword
 DB_HOST=localhost
 EMAIL_USER=youremail@gmail.com
 EMAIL_PASS=yourapppassword
-PORT=5000
+PORT=5001
 ```
 
 ## API Endpoints

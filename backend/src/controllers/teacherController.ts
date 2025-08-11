@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 // Add a new teacher
 export const addTeacher = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, branch, email } = req.body;
+  const { name, branch, email, subjects } = req.body;
     const password = 'Password123'; // Fixed password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -16,6 +16,7 @@ export const addTeacher = async (req: Request, res: Response): Promise<void> => 
       branch,
       email,
       password: hashedPassword,
+      subjects: subjects ? JSON.stringify(subjects) : JSON.stringify([]),
     });
 
     res.status(201).json({ success: true, teacher: newTeacher });

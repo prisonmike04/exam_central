@@ -45,7 +45,7 @@ export default function TeacherManagement() {
   // Fetch all teachers when "View Teachers" is clicked
   const fetchTeachers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/teachers');
+  const response = await axios.get('http://localhost:5001/api/teachers');
       setTeachers(response.data.teachers);
     } catch (error) {
       console.error('Error fetching teachers:', error);
@@ -56,7 +56,7 @@ export default function TeacherManagement() {
   const handleAddTeacher = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/teachers', teacherData);
+  await axios.post('http://localhost:5001/api/teachers', teacherData);
       alert('Teacher added successfully');
       setTeacherData({ name: '', branch: '', email: '', subjects: [] });
       setShowAddForm(false);
@@ -69,7 +69,7 @@ export default function TeacherManagement() {
   // Fetch a teacher by ID before deleting
   const handleFetchTeacherDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/teachers/${deleteId}`);
+  const response = await axios.get(`http://localhost:5001/api/teachers/${deleteId}`);
       setTeacherDetails(response.data.teacher);
     } catch (error) {
       console.error('Error fetching teacher details:', error);
@@ -85,7 +85,7 @@ export default function TeacherManagement() {
         alert('No teacher to delete');
         return;
       }
-      await axios.delete(`http://localhost:5000/api/teachers/${deleteId}`);
+  await axios.delete(`http://localhost:5001/api/teachers/${deleteId}`);
       alert('Teacher deleted successfully');
       setDeleteId('');
       setTeacherDetails(null);
@@ -169,25 +169,27 @@ export default function TeacherManagement() {
               required
             />
             <h3 className="text-lg font-semibold">Subjects:</h3>
-            {subjects.map((subject, index) => (
-              <div className="flex items-center space-x-2" key={index}>
-                <input
-                  type="checkbox"
-                  id={`subject-${index}`}
-                  value={subject}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setTeacherData((prev) => {
-                      const updatedSubjects = prev.subjects.includes(value)
-                        ? prev.subjects.filter((subj) => subj !== value)
-                        : [...prev.subjects, value];
-                      return { ...prev, subjects: updatedSubjects };
-                    });
-                  }}
-                />
-                <label htmlFor={`subject-${index}`}>{subject}</label>
-              </div>
-            ))}
+            <div className="flex flex-col gap-2">
+              {subjects.map((subject, index) => (
+                <div className="flex items-center gap-2" key={index} style={{ width: 'fit-content' }}>
+                  <input
+                    type="checkbox"
+                    id={`subject-${index}`}
+                    value={subject}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setTeacherData((prev) => {
+                        const updatedSubjects = prev.subjects.includes(value)
+                          ? prev.subjects.filter((subj) => subj !== value)
+                          : [...prev.subjects, value];
+                        return { ...prev, subjects: updatedSubjects };
+                      });
+                    }}
+                  />
+                  <label htmlFor={`subject-${index}`} className="ml-2 whitespace-nowrap">{subject}</label>
+                </div>
+              ))}
+            </div>
             <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
               Add Teacher
             </button>

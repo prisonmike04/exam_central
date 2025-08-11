@@ -27,7 +27,7 @@ export default function StudentDashboard() {
         return;
       }
       const response = await axios.get(
-        `http://localhost:5000/api/seating/student/${user.id}/<examId>`, // Replace <examId> as needed
+        `http://localhost:5001/api/seating/student/${user.id}/<examId>`, // Replace <examId> as needed
         {
           headers: { Authorization: `Bearer ${token}` },
         }

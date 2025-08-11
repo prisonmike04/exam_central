@@ -35,7 +35,7 @@ export default function TeacherDashboard() {
         return;
       }
 
-      const response = await axios.get(`http://localhost:5000/api/seating/teacher/${user.id}`, {
+      const response = await axios.get(`http://localhost:5001/api/seating/teacher/${user.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

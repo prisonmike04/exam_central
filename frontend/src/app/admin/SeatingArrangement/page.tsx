@@ -23,7 +23,7 @@ export default function SeatingArrangement() {
       }
 
       await axios.post(
-        'http://localhost:5000/api/seating/generate',
+  'http://localhost:5001/api/seating/generate',
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -52,7 +52,7 @@ export default function SeatingArrangement() {
 
       console.log('Fetching seating arrangement for room:', roomId);
       const response = await axios.get(
-        `http://localhost:5000/api/seating/room/${roomId}`,
+  `http://localhost:5001/api/seating/room/${roomId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -83,7 +83,7 @@ export default function SeatingArrangement() {
       }
 
       await axios.put(
-        `http://localhost:5000/api/seating/${seatId}`,
+  `http://localhost:5001/api/seating/${seatId}`,
         { roomId: newRoomId, seatNumber: newSeatNumber },
         {
           headers: { Authorization: `Bearer ${token}` },

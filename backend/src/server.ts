@@ -8,6 +8,7 @@ import studentRoutes from './routes/studentRoutes';
 import teacherRoutes from './routes/teacherRoutes';
 import teacherAvailabilityRoutes from './routes/teacherAvailabilityRoutes';
 import seatingArrangementRoutes from './routes/seatingArrangementRoutes';
+import marksRoutes from './routes/marksRoutes';
 import { initializeAssociations } from './models';
 import sequelize from './utils/database';
 
@@ -33,9 +34,10 @@ app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/teacher-availability', teacherAvailabilityRoutes);
 app.use('/api/seating', seatingArrangementRoutes);
+app.use('/api/marks', marksRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const startServer = async () => {
   try {

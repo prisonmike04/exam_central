@@ -43,9 +43,14 @@ export default function StudentManagement() {
   // Fetch all students
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/students', {
-        params: { ...filters },
-      });
+  // Only include semester in params if not 'All Semesters'
+  const params: Partial<typeof filters> = { ...filters };
+  if (params.semester === 0) {
+    delete params.semester;
+  }
+  const response = await axios.get('http://localhost:5001/api/students', {
+    params,
+  });
       setStudents(response.data.students);
     } catch (error) {
       console.error('Error fetching students:', error);
@@ -56,7 +61,7 @@ export default function StudentManagement() {
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/students', studentData);
+  await axios.post('http://localhost:5001/api/students', studentData);
       alert('Student added successfully');
       setStudentData({ name: '', branch: '', semester: 1, email: '' });
       setShowAddForm(false);
@@ -69,7 +74,7 @@ export default function StudentManagement() {
   // Fetch a student by ID
   const handleFetchStudentDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/students/${deleteId}`);
+  const response = await axios.get(`http://localhost:5001/api/students/${deleteId}`);
       setStudentDetails(response.data.student);
     } catch (error) {
       console.error('Error fetching student details:', error);
@@ -85,7 +90,7 @@ export default function StudentManagement() {
         alert('No student to delete');
         return;
       }
-      await axios.delete(`http://localhost:5000/api/students/${deleteId}`);
+  await axios.delete(`http://localhost:5001/api/students/${deleteId}`);
       alert('Student deleted successfully');
       setDeleteId('');
       setStudentDetails(null);
