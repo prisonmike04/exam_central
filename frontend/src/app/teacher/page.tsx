@@ -53,47 +53,56 @@ export default function TeacherDashboard() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-6 text-black">
-        Welcome, {user?.name || 'Teacher'}
-      </h1>
-
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Seating Arrangement</h2>
-        <button
-          onClick={fetchSeatingArrangement}
-          className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
-        >
-          Refresh Seating Arrangement
-        </button>
-
-        {loading ? (
-          <p>Loading seating arrangement...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : seatingArrangement.length > 0 ? (
-          <div className="grid grid-cols-3 gap-4">
-            {seatingArrangement.map((seat) => (
-              <div
-                key={seat.id}
-                className="p-4 border rounded shadow bg-gray-50 hover:bg-gray-100"
-              >
-                <p><strong>Room:</strong> {seat.room.name}</p>
-                {seat.student ? (
-                  <div className="mt-2 text-sm text-gray-700">
-                    <p><strong>Name:</strong> {seat.student.name}</p>
-                    <p><strong>Branch:</strong> {seat.student.branch}</p>
-                    <p><strong>Semester:</strong> {seat.student.semester}</p>
+    <div className="min-h-screen bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 p-8 text-gray-100">
+      <h1 className="text-3xl font-bold text-center mb-8">Teacher Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-md flex flex-col items-center">
+          <h2 className="text-xl font-bold mb-4 text-black">Enter Marks</h2>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+            onClick={() => window.location.href='/teacher/MarksEntry'}
+          >
+            Go to Marks Entry
+          </button>
+        </div>
+        <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-md flex flex-col items-center">
+          <h2 className="text-xl font-bold mb-4 text-black">View Seating Arrangement</h2>
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+            onClick={fetchSeatingArrangement}
+          >
+            Refresh Seating Arrangement
+          </button>
+          <div className="mt-4 text-black">
+            {loading ? (
+              <p>Loading seating arrangement...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : seatingArrangement.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4">
+                {seatingArrangement.map((seat) => (
+                  <div
+                    key={seat.id}
+                    className="p-4 border rounded shadow bg-gray-50 hover:bg-gray-100"
+                  >
+                    <p><strong>Room:</strong> {seat.room.name}</p>
+                    {seat.student ? (
+                      <div className="mt-2 text-sm text-gray-700">
+                        <p><strong>Name:</strong> {seat.student.name}</p>
+                        <p><strong>Branch:</strong> {seat.student.branch}</p>
+                        <p><strong>Semester:</strong> {seat.student.semester}</p>
+                      </div>
+                    ) : (
+                      <p>No student assigned</p>
+                    )}
                   </div>
-                ) : (
-                  <p>No student assigned</p>
-                )}
+                ))}
               </div>
-            ))}
+            ) : (
+              <p>No seating arrangement found for your supervised classrooms.</p>
+            )}
           </div>
-        ) : (
-          <p>No seating arrangement found for your supervised classrooms.</p>
-        )}
+        </div>
       </div>
     </div>
   );

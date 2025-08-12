@@ -44,24 +44,28 @@ export default function StudentDashboard() {
     fetchSeat();
   }, [user]);
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-6 text-black">
-        Welcome, {user?.name || 'Student'}
-      </h1>
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Your Seat Assignment</h2>
-        {loading ? (
-          <p>Loading your seat...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : seat ? (
-          <div>
-            <p><strong>Room:</strong> {seat.room.name}</p>
-          </div>
-        ) : (
-          <p>No seat assignment found.</p>
-        )}
-      </div>
-    </div>
+		<div className="min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-8 text-gray-100">
+			<h1 className="text-3xl font-bold text-center mb-8">Student Dashboard</h1>
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+				<div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-md flex flex-col items-center">
+					<h2 className="text-xl font-bold mb-4 text-black">View Report Card</h2>
+					<button
+						className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+						onClick={() => window.location.href='/student/GradeCard'}
+					>
+						Go to Report Card
+					</button>
+				</div>
+				<div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-md flex flex-col items-center">
+					<h2 className="text-xl font-bold mb-4 text-black">View Seating Arrangement</h2>
+					<button
+						className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+						onClick={() => window.location.href='/student/seating'}
+					>
+						Go to Seating Arrangement
+					</button>
+				</div>
+			</div>
+		</div>
   );
 }
